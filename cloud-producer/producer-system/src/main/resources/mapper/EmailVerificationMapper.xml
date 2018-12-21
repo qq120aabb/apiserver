@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.apiserver.producer.system.mapper.EmailVerificationMapper" >
+  <resultMap id="BaseResultMap" type="com.apiserver.model.system.entity.SEmailVerification" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="verification" property="verification" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, email, verification, create_time, type, status
+  </sql>
+
+  <select id="getOneByParameters" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    s_email_verification t
+    <if test="queryMap!=null and queryMap.size>0">
+      WHERE
+      <foreach collection="queryMap" item="item" index="key" open="" separator="AND" close="">
+        t.${key} = ${item}
+      </foreach>
+    </if>
+  </select>
+
+
+
+  <select id="getByParameters" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    s_email_verification t
+    <if test="queryMap!=null and queryMap.size>0">
+      WHERE
+      <foreach collection="queryMap" item="item" index="key" open="" separator="AND" close="">
+        t.${key} = ${item}
+      </foreach>
+    </if>
+    <if test="orderMap!=null and orderMap.size>0">
+      ORDER BY
+      <foreach collection="orderMap" item="item" index="key" open="" separator="," close="">
+        t.${key} ${item}
+      </foreach>
+    </if>
+  </select>
+</mapper>

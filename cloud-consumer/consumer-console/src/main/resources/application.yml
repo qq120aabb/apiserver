@@ -1,0 +1,57 @@
+info:
+  app.name: consumer-console
+  app.version: V1.0.0
+app:
+  id: SampleApp
+#apollo:
+#  meta: http://192.168.1.73:8280
+spring:
+  application:
+    name: consumer-console
+  boot:
+    admin:
+      client:
+        url: http://localhost:8090
+        username: "jarvis"
+        password: "weiyu@2018"
+        instance:
+          prefer-ip: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  devtools:
+    restart:
+      enabled: true
+  zipkin:
+    base-url: http://localhost:9411
+server:
+  port: 8091
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    prefer-ip-address: true
+  client:
+    registryFetchIntervalSeconds: 5
+    service-url:
+      defaultZone: http://localhost:1111/eureka/
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      enabled: true
+      show-details: ALWAYS
+feign:
+  hystrix:
+    enabled: true
+
+
+
+
+
+

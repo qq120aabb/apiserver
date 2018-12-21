@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.apiserver.producer.mall.mapper.EquipmentLogMapper" >
+  <resultMap id="BaseResultMap" type="com.apiserver.model.mall.entity.MEquipmentLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="equipment_id" property="equipmentId" jdbcType="BIGINT" />
+    <result column="operate_type" property="operateType" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modify_id" property="modifyId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, equipment_id, operate_type, description, create_time, create_id, modify_time, 
+    modify_id
+  </sql>
+
+</mapper>

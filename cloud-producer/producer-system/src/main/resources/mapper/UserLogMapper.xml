@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.apiserver.producer.system.mapper.UserLogMapper" >
+  <resultMap id="BaseResultMap" type="com.apiserver.model.system.entity.SUserLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="log_time" property="logTime" jdbcType="TIMESTAMP" />
+    <result column="operation" property="operation" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="user_ip" property="userIp" jdbcType="VARCHAR" />
+    <result column="success_flag" property="successFlag" jdbcType="INTEGER" />
+    <result column="login_platform" property="loginPlatform" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, account, user_id, log_time, operation, type, user_ip, success_flag, login_platform
+  </sql>
+  <select id="getOneByParameters" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    s_user_log t
+    <if test="queryMap!=null and queryMap.size>0">
+      WHERE
+      <foreach collection="queryMap" item="item" index="key" open="" separator="AND" close="">
+        t.${key} = ${item}
+      </foreach>
+    </if>
+  </select>
+
+
+
+  <select id="getByParameters" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    s_user_log t
+    <if test="queryMap!=null and queryMap.size>0">
+      WHERE
+      <foreach collection="queryMap" item="item" index="key" open="" separator="AND" close="">
+        t.${key} = ${item}
+      </foreach>
+    </if>
+    <if test="orderMap!=null and orderMap.size>0">
+      ORDER BY
+      <foreach collection="orderMap" item="item" index="key" open="" separator="," close="">
+        t.${key} ${item}
+      </foreach>
+    </if>
+  </select>
+  <select id="userLogSelectAll" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    s_user_log t
+    WHERE
+    1=1
+    <if test="account != null">
+      AND t.account like '%${account}%'
+    </if>
+    <if test="userIp != null">
+      AND t.user_ip like '%${userIp}%'
+    </if>
+    <if test="startTime != null and startTime!=''">
+      AND t.log_time &gt;= #{startTime}
+    </if>
+    <if test="endTime != null and endTime!=''">
+      AND t.log_time &lt;= #{endTime}
+    </if>
+    <if test="successFlag != null and successFlag!=''">
+      AND t.success_flag = #{successFlag}
+    </if>
+    order by t.log_time desc
+  </select>
+</mapper>

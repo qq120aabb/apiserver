@@ -1,0 +1,43 @@
+info:
+  app.name: cloud-server-swagger
+  app.version: V1.0.0
+  app.component: 接口文档swagger
+app:
+  id: SampleApp
+#apollo:
+#  meta: http://192.168.1.73:8280
+spring:
+  application:
+    name: cloud-server-swagger
+server:
+  port: 5566
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+documentation:
+  swagger:
+    services:
+    -
+      name: 控制台服务
+      url: /console/v2/api-docs
+      version: 1.0
+    -
+      name: 移动端服务
+      url: /mobile/v2/api-docs
+      version: 1.0
+
+    -
+      name: 系统授权
+      url: /system/v2/api-docs
+      version: 1.0
+    -
+      name: 内容社区
+      url: /content/v2/api-docs
+      version: 1.0
+    -
+      name: 线上商城
+      url: /mall/v2/api-docs
+      version: 1.0
+
+

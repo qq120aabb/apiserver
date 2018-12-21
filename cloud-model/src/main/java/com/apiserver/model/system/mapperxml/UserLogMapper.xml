@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.apiserver.model.system.mapper.UserLogMapper" >
+  <resultMap id="BaseResultMap" type="com.apiserver.model.system.entity.UserLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="log_time" property="logTime" jdbcType="TIMESTAMP" />
+    <result column="operation" property="operation" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="user_ip" property="userIp" jdbcType="VARCHAR" />
+    <result column="success_flag" property="successFlag" jdbcType="INTEGER" />
+    <result column="login_platform" property="loginPlatform" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, account, user_id, log_time, operation, type, user_ip, success_flag, login_platform
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from s_user_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from s_user_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.apiserver.model.system.entity.UserLog" >
+    insert into s_user_log (id, account, user_id, 
+      log_time, operation, type, 
+      user_ip, success_flag, login_platform
+      )
+    values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
+      #{logTime,jdbcType=TIMESTAMP}, #{operation,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{userIp,jdbcType=VARCHAR}, #{successFlag,jdbcType=INTEGER}, #{loginPlatform,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.apiserver.model.system.entity.UserLog" >
+    insert into s_user_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="logTime != null" >
+        log_time,
+      </if>
+      <if test="operation != null" >
+        operation,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="userIp != null" >
+        user_ip,
+      </if>
+      <if test="successFlag != null" >
+        success_flag,
+      </if>
+      <if test="loginPlatform != null" >
+        login_platform,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="logTime != null" >
+        #{logTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operation != null" >
+        #{operation,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="userIp != null" >
+        #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="successFlag != null" >
+        #{successFlag,jdbcType=INTEGER},
+      </if>
+      <if test="loginPlatform != null" >
+        #{loginPlatform,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.apiserver.model.system.entity.UserLog" >
+    update s_user_log
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="logTime != null" >
+        log_time = #{logTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operation != null" >
+        operation = #{operation,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="userIp != null" >
+        user_ip = #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="successFlag != null" >
+        success_flag = #{successFlag,jdbcType=INTEGER},
+      </if>
+      <if test="loginPlatform != null" >
+        login_platform = #{loginPlatform,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.apiserver.model.system.entity.UserLog" >
+    update s_user_log
+    set account = #{account,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      log_time = #{logTime,jdbcType=TIMESTAMP},
+      operation = #{operation,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      user_ip = #{userIp,jdbcType=VARCHAR},
+      success_flag = #{successFlag,jdbcType=INTEGER},
+      login_platform = #{loginPlatform,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

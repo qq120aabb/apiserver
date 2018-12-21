@@ -1,0 +1,59 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: cloud-server-admin
+  profiles:
+    active:
+      - secure
+#  boot:
+#    admin:
+#      turbine:
+#        clusters: default
+#        location: cloud-server-admin
+
+info:
+  app:
+    name: "cloud-server-admin"
+    description: "cloud server admin"
+    version: "V1.0.0"
+app:
+  id: SampleApp
+#apollo:
+#  meta: http://191.168.1.73:8280
+#turbine:
+#  app-config: producer-mall
+#  cluster-name-expression: default
+---
+spring:
+  profiles: insecure
+---
+spring:
+  profiles: secure
+  security:
+    user:
+      name: "jarvis"
+      password: "weiyu@2018"
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    metadata-map:
+      "user.name": ${spring.security.user.name}
+      "user.password": ${spring.security.user.password}
+  client:
+    registryFetchIntervalSeconds: 10
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+management:
+  endpoints:
+    enabled-by-default: true
+  endpoint:
+    web:
+      exposure:
+        include: "*"
+    health:
+      enabled: true
+      show-details: ALWAYS
+

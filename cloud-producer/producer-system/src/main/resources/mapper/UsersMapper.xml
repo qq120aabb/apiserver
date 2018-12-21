@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.apiserver.producer.system.mapper.UsersMapper" >
+  <resultMap id="BaseResultMap" type="com.apiserver.model.system.entity.SUsers" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="pwd" property="pwd" jdbcType="VARCHAR" />
+    <result column="chinese_name" property="chineseName" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="last_date" property="lastDate" jdbcType="TIMESTAMP" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="nationality" property="nationality" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="cities" property="cities" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="id_type" property="idType" jdbcType="INTEGER" />
+    <result column="id_number" property="idNumber" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="household" property="household" jdbcType="VARCHAR" />
+    <result column="ethnic" property="ethnic" jdbcType="VARCHAR" />
+    <result column="blood" property="blood" jdbcType="VARCHAR" />
+    <result column="career" property="career" jdbcType="VARCHAR" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="login_type" property="loginType" jdbcType="INTEGER" />
+    <result column="skin" property="skin" jdbcType="VARCHAR" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modify_id" property="modifyId" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="BIGINT" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+    <result column="register_type" property="registerType" jdbcType="INTEGER" />
+    <result column="register_code" property="registerCode" jdbcType="VARCHAR" />
+    <result column="qq_number" property="qqNumber" jdbcType="VARCHAR" />
+    <result column="wechat" property="wechat" jdbcType="VARCHAR" />
+    <result column="weibo" property="weibo" jdbcType="VARCHAR" />
+    <result column="open_id_wechat" property="openIdWechat" jdbcType="VARCHAR" />
+    <result column="open_id_qq" property="openIdQq" jdbcType="VARCHAR" />
+    <result column="open_id_weibo" property="openIdWeibo" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="resultUserMap" type="map"/>
+  <sql id="Base_Column_List" >
+    id, account, pwd, chinese_name, nickname, email, mobile, last_date, sex, birthday, 
+    nationality, province, cities, address, id_type, id_number, education, age, household, 
+    ethnic, blood, career, register_time, status, login_type, skin, modify_time, modify_id, 
+    role_id, image_url, user_type, register_type, register_code, qq_number, wechat, weibo, 
+    open_id_wechat, open_id_qq, open_id_weibo
+  </sql>
+
+
+  <select id="loginWeb" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    s_users u
+    WHERE
+    1 = 1
+    AND (u.account = #{account}
+    OR u.mobile = #{account} );
+  </select>
+
+  <select id="selectUserList" parameterType="map" resultMap="BaseResultMap">
+    select
+    id, account, chinese_name, nickname, email, mobile, last_date, sex, birthday,
+    nationality, province, cities, address, id_type, id_number, education, age, household,
+    ethnic, blood, career, register_time, status, login_type, skin, modify_time, modify_id,
+    role_id, image_url, user_type, register_type, register_code, qq_number, wechat, weibo,
+    open_id_wechat, open_id_qq, open_id_weibo
+    from s_users
+    where 1 = 1
+  </select>
+
+  <select id="getOneByParameters" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    s_users t
+    <if test="queryMap!=null and queryMap.size>0">
+      WHERE
+      <foreach collection="queryMap" item="item" index="key" open="" separator="AND" close="">
+        t.${key} = ${item}
+      </foreach>
+    </if>
+  </select>
+
+    <select id="fetchByAllOrParameters" resultType="int">
+        SELECT
+        count(1)
+        FROM
+        s_users t
+        <if test="mapperQueryMap!=null and mapperQueryMap.size>0">
+            WHERE
+            <foreach collection="mapperQueryMap" item="item" index="key" open="" separator="OR" close="">
+                t.${key} = ${item}
+            </foreach>
+        </if>
+    </select>
+
+
+  <select id="getByParameters" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    s_users t
+    <if test="queryMap!=null and queryMap.size>0">
+      WHERE
+      <foreach collection="queryMap" item="item" index="key" open="" separator="AND" close="">
+        t.${key} = ${item}
+      </foreach>
+    </if>
+    <if test="orderMap!=null and orderMap.size>0">
+      ORDER BY
+      <foreach collection="orderMap" item="item" index="key" open="" separator="," close="">
+        t.${key} ${item}
+      </foreach>
+    </if>
+  </select>
+
+
+</mapper>

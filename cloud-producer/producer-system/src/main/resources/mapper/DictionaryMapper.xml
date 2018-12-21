@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.apiserver.producer.system.mapper.DictionaryMapper" >
+  <resultMap id="BaseResultMap" type="com.apiserver.model.system.entity.SDictionary" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sort_id" property="sortId" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_id" property="modifyId" jdbcType="BIGINT" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sort_id, parent_id, name, value, description, create_id, create_time, modify_id, 
+    modify_time, status
+  </sql>
+
+  <select id="getOneByParameters" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    s_dictionary t
+    <if test="queryMap!=null and queryMap.size>0">
+      WHERE
+      <foreach collection="queryMap" item="item" index="key" open="" separator="AND" close="">
+        t.${key} = ${item}
+      </foreach>
+    </if>
+  </select>
+
+
+
+  <select id="getByParameters" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    s_dictionary t
+    <if test="queryMap!=null and queryMap.size>0">
+      WHERE
+      <foreach collection="queryMap" item="item" index="key" open="" separator="AND" close="">
+        t.${key} = ${item}
+      </foreach>
+    </if>
+    <if test="orderMap!=null and orderMap.size>0">
+      ORDER BY
+      <foreach collection="orderMap" item="item" index="key" open="" separator="," close="">
+        t.${key} ${item}
+      </foreach>
+    </if>
+  </select>
+  <select id="queryDictionaryList"  resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    s_dictionary t
+    where 1=1
+    <choose>
+      <when test="parentId !=null">
+        and parent_id =#{parentId}
+      </when>
+      <otherwise>
+        and parent_id =0
+      </otherwise>
+    </choose>
+  </select>
+  <select id="getBySDictionary" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    s_dictionary t
+    where
+    (1=1)
+    <if test = "parentId != null">
+    and  parent_id = #{parentId}
+    </if>
+  </select>
+
+</mapper>

@@ -1,0 +1,66 @@
+info:
+  app.name: cloud-server-zuul
+  app.version: V1.0.0
+  app.component: 统一接口文档服务
+app:
+  id: SampleApp
+#apollo:
+#  meta: http://192.168.1.73:8280
+spring:
+  profiles:
+    active: default
+  aop:
+    proxyTargetClass: true
+  application:
+    name: cloud-server-zuul
+  admin:
+    url: http://localhost:8300
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+ribbon:
+  readTimeout: 60000
+  connectTimeout: 60000
+zuul:
+  host:
+    connect-timeout-millis: 60000
+    socket-timeout-millis: 60000
+    max-total-connections: 200
+    max-per-route-connections: 20
+    time-unit: MILLISECONDS
+    time-to-live: 10000
+  sensitive-headers:
+  routes:
+    consumer-console:
+          path: /console/**
+          sensitive-headers:
+    consumer-mobile:
+          path: /mobile/**
+          sensitive-headers:
+
+    producer-system:
+          path: /system/**
+          sensitive-headers:
+    producer-game:
+          path: /content/**
+          sensitive-headers:
+    producer-mall:
+          path: /mall/**
+          sensitive-headers:
+
+    cloud-server-swagger:
+          path: /**
+          sensitive-headers:
+
+eureka.client.serviceUrl.defaultZone: http://localhost:1111/eureka/
+server:
+  port: 5555
+
+hystrix:
+  command:
+     default:
+        execution:
+           isolation:
+              thread:
+                 timeoutInMilliseconds: 60000 #在hystrix的调用方配置，被该调用方的所有方法的超时时间都是该值

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apiserver.producer.system.mapper.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.apiserver.model.system.entity.SMenu">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sort_id" jdbcType="INTEGER" property="sortId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="icon_class" jdbcType="VARCHAR" property="iconClass" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="create_id" jdbcType="BIGINT" property="createId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_id" jdbcType="BIGINT" property="modifyId" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sort_id, parent_id, name, url, icon_class, description, create_id, create_time, 
+    modify_id, modify_time
+  </sql>
+  <select id="getOneByParameters" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    s_menu t
+    <if test="queryMap!=null and queryMap.size>0">
+      WHERE
+      <foreach collection="queryMap" item="item" index="key" open="" separator="AND" close="">
+        t.${key} = ${item}
+      </foreach>
+    </if>
+  </select>
+
+
+
+  <select id="getByParameters" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    s_menu t
+    <if test="queryMap!=null and queryMap.size>0">
+      WHERE
+      <foreach collection="queryMap" item="item" index="key" open="" separator="AND" close="">
+        t.${key} = ${item}
+      </foreach>
+    </if>
+    <if test="orderMap!=null and orderMap.size>0">
+      ORDER BY
+      <foreach collection="orderMap" item="item" index="key" open="" separator="," close="">
+        t.${key} ${item}
+      </foreach>
+    </if>
+  </select>
+
+ <select id="queryMenuByUserId" resultMap="BaseResultMap">
+   SELECT
+   t4.id, t4.sort_id, t4.parent_id, t4.name, t4.url, t4.icon_class, t4.description, t4.create_id, t4.create_time,
+   t4.modify_id, t4.modify_time
+   FROM
+   s_users t1
+   INNER JOIN s_roles t2 ON t1.role_id = t2.id
+   INNER JOIN s_role_menu t3 ON t3.role_id = t2.id
+   INNER JOIN s_menu t4 ON t4.id=t3.menu_id
+   WHERE 1=1
+   <if test="userId !=null">
+    and t1.id=#{userId}
+   </if>
+   ORDER BY t4.sort_id
+ </select>
+
+  <select id="queryMenuByRoleId" resultMap="BaseResultMap">
+    SELECT
+    t3.id, t3.sort_id, t3.parent_id, t3.name, t3.url, t3.icon_class, t3.description, t3.create_id, t3.create_time,
+    t3.modify_id, t3.modify_time
+    FROM
+    s_roles t1
+    INNER JOIN s_role_menu t2 ON t2.role_id = t1.id
+    INNER JOIN s_menu t3 ON t3.id=t2.menu_id
+    WHERE 1=1
+    <if test="roleId !=null">
+      and t1.id=#{roleId}
+    </if>
+    ORDER BY t3.sort_id
+  </select>
+</mapper>
